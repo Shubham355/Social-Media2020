@@ -9,13 +9,12 @@ import {
   GET_PROFILES,
 } from './types';
 import { setAlert } from './alert';
-import { Redirect } from 'react-router-dom';
 
 // Get  profile of current user
 export const getCurrentProfile = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/profile/me');
-    // console.log(res);
+
     dispatch({
       type: GET_PROFILE,
       payload: res.data,
@@ -61,6 +60,7 @@ export const getProfileByID = (userID) => async (dispatch) => {
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    dispatch({ type: CLEAR_PROFILE });
   }
 };
 
@@ -232,4 +232,11 @@ export const deleteAccount = () => async (dispatch) => {
       });
     }
   }
+};
+
+// Clear Profile
+export const clearProfile = () => async (dispatch) => {
+  dispatch({
+    type: CLEAR_PROFILE,
+  });
 };

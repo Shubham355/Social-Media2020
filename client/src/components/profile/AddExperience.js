@@ -8,7 +8,7 @@ import DisplayExperience from './DisplayExperience';
 const AddExperience = ({ profile, addExperience, history }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, [getCurrentProfile]);
+  }, []);
 
   const [formData, setFormData] = useState({
     company: '',

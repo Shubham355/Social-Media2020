@@ -8,7 +8,7 @@ import DisplayEducation from './DisplayEducation';
 const AddEducation = ({ profile, addEducation, history }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, [getCurrentProfile]);
+  }, []);
 
   const [formData, setFormData] = useState({
     school: '',
