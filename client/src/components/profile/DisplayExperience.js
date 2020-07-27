@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import { deleteExperience } from '../../actions/profile';
+import setAuthToken from '../../utils/setAuthToken';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const DisplayExperience = ({ experience, deleteExperience }) => {
   const experiences = experience.map((exp) => (

@@ -77,26 +77,28 @@ export const dislike = (postId) => async (dispatch) => {
 
 // Delete post
 export const deletePost = (postId) => async (dispatch) => {
-  try {
-    await axios.delete(`/api/posts/${postId}`);
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
+    try {
+      await axios.delete(`/api/posts/${postId}`);
 
-    dispatch({
-      type: DELETE_POST,
-      payload: postId,
-    });
+      dispatch({
+        type: DELETE_POST,
+        payload: postId,
+      });
 
-    dispatch(setAlert('Post Removed', 'success'));
-  } catch (err) {
-    const errors = err.response.data.errors;
+      dispatch(setAlert('Post Removed', 'success'));
+    } catch (err) {
+      const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      }
+
+      dispatch({
+        type: POST_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
     }
-
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
   }
 };
 
