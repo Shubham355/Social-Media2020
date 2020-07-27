@@ -2,13 +2,13 @@ import React, { useState, useEffect, Fragment } from 'react';
 // import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 // import { getProfileByID, clearProfile } from '../../actions/profile';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import ProfileData from './ProfileData';
 import Spinner from '../layout/Spinner';
 import ProfileNotFound from './ProfileNotFound';
 import axios from 'axios';
 
-const IndividualProfile = ({ match }) => {
+const IndividualProfile = ({ match, history }) => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,11 +29,24 @@ const IndividualProfile = ({ match }) => {
     getProfileByID(match.params.user_id);
   }, [getProfileByID, match]);
 
+  // const goBack = (e) => {
+  //   e.preventDefault();
+  //   history.goBack();
+  // };
+
   return loading && profile === null ? (
     <Spinner />
   ) : profile !== null ? (
     <Fragment>
-      <Link to='/dashboard' className='btn btn-light my-1'>
+      {/* <button onClick={() => { history.goBack()}} className='btn btn-light my-1'>
+        Click here to go back
+      </button> */}
+      <Link
+        onClick={() => {
+          history.goBack();
+        }}
+        className='btn btn-light my-1'
+      >
         Go Back
       </Link>
 
@@ -56,4 +69,4 @@ const IndividualProfile = ({ match }) => {
 //   profile: state.profile,
 // });
 
-export default IndividualProfile;
+export default withRouter(IndividualProfile);
