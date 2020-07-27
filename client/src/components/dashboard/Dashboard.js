@@ -13,12 +13,7 @@ const Dashboard = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-    scrollToTop();
   }, [getCurrentProfile]);
-
-  function scrollToTop() {
-    window.scrollTo(0, 0);
-  }
 
   return loading && profile === null ? (
     <Spinner />
