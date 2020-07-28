@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import { addLike, dislike, deletePost } from '../../actions/post';
+import swal from 'sweetalert';
 
 const PostItem = ({
   addLike,
@@ -12,65 +13,83 @@ const PostItem = ({
   auth,
   post: { _id, text, name, avatar, user, likes, dislikes, comments, date },
   showActions,
-}) => (
-  <div className='post bg-white p-1 my-1'>
-    <div>
-      <Link to={`/profile/${user}`}>
-        <img className='round-img' src={avatar} alt='' />
-        <h4>{name}</h4>
-      </Link>
-    </div>
+}) => {
+  const customDelete = (id) => {
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this post!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        deletePost(id);
+      }
+    });
+  };
 
-    <div>
-      <p className='my-1'>{text}</p>
-      <p className='post-date'>
-        Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
-      </p>
+  return (
+    <div className='post bg-white p-1 my-1'>
+      <div>
+        <Link to={`/profile/${user}`}>
+          <img className='round-img' src={avatar} alt='' />
+          <h4>{name}</h4>
+        </Link>
+      </div>
 
-      {showActions && (
-        <Fragment>
-          <button
-            onClick={(e) => addLike(_id)}
-            type='button'
-            className='btn btn-light'
-          >
-            {likes.filter((like) => like.user === auth.user._id).length > 0 ? (
-              <i className='fas fa-thumbs-up' />
-            ) : (
-              <i className='fa fa-thumbs-o-up'></i>
-            )}{' '}
-            {likes.length > 0 && <span>{likes.length}</span>}
-          </button>
-          <button
-            onClick={(e) => dislike(_id)}
-            type='button'
-            className='btn btn-light'
-          >
-            {dislikes.filter((dislike) => dislike.user === auth.user._id).length > 0 ? (
-              <i className='fas fa-thumbs-down' />
-            ) : (
-              <i className='fa fa-thumbs-o-down'></i>
-            )}{' '}
-            {dislikes.length > 0 && <span>{dislikes.length}</span>}
-          </button>
-          <Link to={`/posts/${_id}`} className='btn'>
-            <i className='fa fa-comment-o'></i>{' '}
-            {comments.length > 0 && <span>{comments.length}</span>}
-          </Link>
-          {!auth.loading && user === auth.user._id && (
+      <div>
+        <p className='my-1'>{text}</p>
+        <p className='post-date'>
+          Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
+        </p>
+
+        {showActions && (
+          <Fragment>
             <button
-              onClick={(e) => deletePost(_id)}
+              onClick={(e) => addLike(_id)}
               type='button'
-              className='btn btn-danger'
+              className='btn btn-light'
             >
-              <i className='fas fa-times'></i>
+              {likes.filter((like) => like.user === auth.user._id).length >
+              0 ? (
+                <i className='fas fa-thumbs-up' />
+              ) : (
+                <i className='fa fa-thumbs-o-up'></i>
+              )}{' '}
+              {likes.length > 0 && <span>{likes.length}</span>}
             </button>
-          )}
-        </Fragment>
-      )}
+            <button
+              onClick={(e) => dislike(_id)}
+              type='button'
+              className='btn btn-light'
+            >
+              {dislikes.filter((dislike) => dislike.user === auth.user._id)
+                .length > 0 ? (
+                <i className='fas fa-thumbs-down' />
+              ) : (
+                <i className='fa fa-thumbs-o-down'></i>
+              )}{' '}
+              {dislikes.length > 0 && <span>{dislikes.length}</span>}
+            </button>
+            <Link to={`/posts/${_id}`} className='btn'>
+              <i className='fa fa-comment-o'></i>{' '}
+              {comments.length > 0 && <span>{comments.length}</span>}
+            </Link>
+            {!auth.loading && user === auth.user._id && (
+              <button
+                onClick={(e) => customDelete(_id)}
+                type='button'
+                className='btn btn-danger'
+              >
+                <i className='fas fa-times'></i>
+              </button>
+            )}
+          </Fragment>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 PostItem.defaultProps = {
   showActions: true,

@@ -6,6 +6,7 @@ import { getCurrentProfile, deleteAccount } from '../../actions/profile';
 import ProfileActions from './ProfileActions';
 import Spinner from '../layout/Spinner';
 import ProfileData from './ProfileData';
+import swal from 'sweetalert';
 
 const Profile = ({
   getCurrentProfile,
@@ -22,6 +23,20 @@ const Profile = ({
     window.scrollTo(0, 0);
   }
 
+  const customDelete = () => {
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover your account!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        deleteAccount();
+      }
+    });
+  };
+
   return loading && profile === null ? (
     <Spinner />
   ) : (
@@ -36,7 +51,7 @@ const Profile = ({
           <ProfileData profile={profile} />
 
           <div className='my-2'>
-            <button onClick={() => deleteAccount()} className='btn btn-danger'>
+            <button onClick={() => customDelete()} className='btn btn-danger'>
               <i className='fas fa-user-minus'> Delete My Account</i>
             </button>
           </div>

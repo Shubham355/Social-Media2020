@@ -8,7 +8,8 @@ import {
   ACCOUNT_DELETED,
   GET_PROFILES,
 } from './types';
-import { setAlert } from './alert';
+// import { setAlert } from './alert';
+import swal from 'sweetalert';
 
 // Get  profile of current user
 export const getCurrentProfile = () => async (dispatch) => {
@@ -98,14 +99,20 @@ export const createProfile = (formData, history, edit = false) => async (
       payload: res.data,
     });
 
-    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
+    const title = edit ? 'Profile Updated' : 'Profile Created';
+    swal({ title, icon: 'success' });
+
+    // dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success'));
 
     history.push('/profile');
   } catch (err) {
     const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    if (errors.length === 2) {
+      swal({ title: 'Status & Skills are required!', icon: 'warning' });
+    } else {
+      swal({ title: errors[0].msg, icon: 'warning' });
+      // errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -129,15 +136,26 @@ export const addExperience = (formData, history) => async (dispatch) => {
       payload: res.data,
     });
 
-    dispatch(setAlert('Experience Added', 'success'));
+    swal({ title: 'Experience Added', icon: 'success' });
+    // dispatch(setAlert('Experience Added', 'success'));
 
     history.push('/add-experience');
   } catch (err) {
     // console.log(err)
     const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    if (errors.length === 3) {
+      swal({
+        title: 'Title, Company & From date are required!',
+        icon: 'warning',
+      });
+    } else {
+      if (errors.length === 2) {
+        swal({ title: errors[0].msg, icon: 'warning' });
+      } else {
+        swal({ title: errors[0].msg, icon: 'warning' });
+        // errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      }
     }
 
     dispatch({
@@ -161,14 +179,29 @@ export const addEducation = (formData, history) => async (dispatch) => {
       payload: res.data,
     });
 
-    dispatch(setAlert('Education Added', 'success'));
+    swal({ title: 'Education Added', icon: 'success' });
+    // dispatch(setAlert('Education Added', 'success'));
 
     history.push('/add-education');
   } catch (err) {
     const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    if (errors.length === 4) {
+      swal({
+        title: 'School name, Degree, Field Of Study & From date are required!',
+        icon: 'warning',
+      });
+    } else {
+      if (errors.length === 3) {
+        swal({ title: errors[0].msg, icon: 'warning' });
+      } else {
+        if (errors.length === 2) {
+          swal({ title: errors[0].msg, icon: 'warning' });
+        } else {
+          swal({ title: errors[0].msg, icon: 'warning' });
+          // errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+        }
+      }
     }
 
     dispatch({
@@ -187,7 +220,10 @@ export const deleteExperience = (id) => async (dispatch) => {
       type: UPDATE_PROFILE,
       payload: res.data,
     });
-    dispatch(setAlert('Experience Removed', 'success'));
+
+    swal({ title: 'Experience Removed', icon: 'success' });
+
+    // dispatch(setAlert('Experience Removed', 'success'));
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
@@ -205,7 +241,9 @@ export const deleteEducation = (id) => async (dispatch) => {
       type: UPDATE_PROFILE,
       payload: res.data,
     });
-    dispatch(setAlert('Education Removed', 'success'));
+
+    swal({ title: 'Education Removed', icon: 'success' });
+    // dispatch(setAlert('Education Removed', 'success'));
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
@@ -216,22 +254,22 @@ export const deleteEducation = (id) => async (dispatch) => {
 
 // Delete Account & Profile
 export const deleteAccount = () => async (dispatch) => {
-  if (window.confirm('Are you sure? This can NOT be undone!')) {
-    try {
-      await axios.delete('/api/profile');
+  try {
+    await axios.delete('/api/profile');
 
-      dispatch({ type: CLEAR_PROFILE });
-      dispatch({ type: ACCOUNT_DELETED });
+    dispatch({ type: CLEAR_PROFILE });
+    dispatch({ type: ACCOUNT_DELETED });
 
-      dispatch(
-        setAlert('Your Account has been permanently deleted', 'success')
-      );
-    } catch (err) {
-      dispatch({
-        type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
-      });
-    }
+    swal({
+      title: 'Your Account has been permanently deleted',
+      icon: 'success',
+    });
+    // dispatch(setAlert('Your Account has been permanently deleted', 'success'));
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };
 

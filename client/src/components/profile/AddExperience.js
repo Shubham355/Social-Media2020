@@ -4,11 +4,17 @@ import { getCurrentProfile, addExperience } from '../../actions/profile';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import DisplayExperience from './DisplayExperience';
+import Spinner from '../layout/Spinner';
 
-const AddExperience = ({ profile, addExperience, history }) => {
+const AddExperience = ({
+  getCurrentProfile,
+  profile: { profile, loading },
+  addExperience,
+  history,
+}) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, [getCurrentProfile]);
 
   const [formData, setFormData] = useState({
     company: '',
@@ -41,7 +47,9 @@ const AddExperience = ({ profile, addExperience, history }) => {
     });
   };
 
-  return (
+  return loading && profile === null ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <h1 className='large text-primary'>Add an Experience</h1>
       <p className='lead'>
@@ -132,7 +140,12 @@ const AddExperience = ({ profile, addExperience, history }) => {
       </form>
 
       <h1 className='large text-primary my-2'>Delete an Experience</h1>
-      <DisplayExperience experience={profile.experience} />
+
+      {!loading && profile !== null && (
+        <Fragment>
+          <DisplayExperience experience={profile.experience} />
+        </Fragment>
+      )}
 
       <Link className='btn btn-light my-1' to='/profile'>
         Go Back
@@ -144,12 +157,13 @@ const AddExperience = ({ profile, addExperience, history }) => {
 AddExperience.propTypes = {
   addExperience: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  profile: state.profile.profile,
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps, { addExperience })(
+export default connect(mapStateToProps, { getCurrentProfile, addExperience })(
   withRouter(AddExperience)
 );

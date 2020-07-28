@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setAlert } from './alert';
+// import { setAlert } from './alert';
 import {
   GET_POSTS,
   POST_ERROR,
@@ -11,6 +11,7 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
 } from '../actions/types';
+import swal from 'sweetalert';
 
 // Get posts
 export const getPosts = () => async (dispatch) => {
@@ -41,9 +42,11 @@ export const addLike = (postId) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-    }
+    // if (errors) {
+    //   errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    // }
+
+    swal({ title: 'Post already liked', icon: 'warning' });
 
     dispatch({
       type: POST_ERROR,
@@ -64,9 +67,11 @@ export const dislike = (postId) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-    }
+    // if (errors) {
+    //   errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    // }
+
+    swal({ title: 'Post already disliked', icon: 'warning' });
 
     dispatch({
       type: POST_ERROR,
@@ -77,28 +82,27 @@ export const dislike = (postId) => async (dispatch) => {
 
 // Delete post
 export const deletePost = (postId) => async (dispatch) => {
-  if (window.confirm('Are you sure? This can NOT be undone!')) {
-    try {
-      await axios.delete(`/api/posts/${postId}`);
+  try {
+    await axios.delete(`/api/posts/${postId}`);
 
-      dispatch({
-        type: DELETE_POST,
-        payload: postId,
-      });
+    dispatch({
+      type: DELETE_POST,
+      payload: postId,
+    });
 
-      dispatch(setAlert('Post Removed', 'success'));
-    } catch (err) {
-      const errors = err.response.data.errors;
+    swal({ title: 'Post Removed', icon: 'success' });
+  } catch (err) {
+    const errors = err.response.data.errors;
 
-      if (errors) {
-        errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-      }
-
-      dispatch({
-        type: POST_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
-      });
+    if (errors) {
+      errors.forEach((error) => swal({ title: error.msg, icon: 'error' }));
+      // errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
+
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };
 
@@ -118,7 +122,7 @@ export const addPost = (formData) => async (dispatch) => {
       payload: res.data,
     });
 
-    dispatch(setAlert('Post Created', 'success'));
+    swal({ title: 'Post Created', icon: 'success' });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -164,7 +168,7 @@ export const addComment = (postId, formData) => async (dispatch) => {
       payload: res.data,
     });
 
-    dispatch(setAlert('Comment Added', 'success'));
+    swal({ title: 'Comment Added', icon: 'success' });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -183,7 +187,7 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
       payload: commentId,
     });
 
-    dispatch(setAlert('Comment Removed', 'success'));
+    swal({ title: 'Comment Removed', icon: 'success' });
   } catch (err) {
     dispatch({
       type: POST_ERROR,

@@ -9,8 +9,9 @@ import {
   CLEAR_PROFILE,
 } from '../actions/types';
 import axios from 'axios';
-import { setAlert } from './alert';
+// import { setAlert } from './alert';
 import setAuthToken from '../utils/setAuthToken';
+import swal from 'sweetalert';
 
 // Load User
 export const loadUser = () => async (dispatch) => {
@@ -53,9 +54,16 @@ export const register = ({ name, email, password }) => async (dispatch) => {
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
-
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    console.log(errors.length);
+    if (errors.length === 3) {
+      swal({ title: 'Please fill all the fields!', icon: 'warning' });
+    } else {
+      if (errors.length === 2) {
+        swal({ title: errors[0].msg, icon: 'warning' });
+      } else {
+        swal({ title: errors[0].msg, icon: 'warning' });
+        // errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+      }
     }
 
     dispatch({
@@ -86,8 +94,11 @@ export const login = (email, password) => async (dispatch) => {
   } catch (err) {
     const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
+    if (errors.length === 2) {
+      swal({ title: 'Please fill all the fields!', icon: 'warning' });
+    } else {
+      swal({ title: errors[0].msg, icon: 'warning' });
+      // errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({

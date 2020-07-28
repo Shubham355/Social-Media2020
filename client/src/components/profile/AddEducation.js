@@ -4,11 +4,17 @@ import { getCurrentProfile, addEducation } from '../../actions/profile';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import DisplayEducation from './DisplayEducation';
+import Spinner from '../layout/Spinner';
 
-const AddEducation = ({ profile, addEducation, history }) => {
+const AddEducation = ({
+  getCurrentProfile,
+  profile: { profile, loading },
+  addEducation,
+  history,
+}) => {
   useEffect(() => {
     getCurrentProfile();
-  }, []);
+  }, [getCurrentProfile]);
 
   const [formData, setFormData] = useState({
     school: '',
@@ -49,7 +55,9 @@ const AddEducation = ({ profile, addEducation, history }) => {
     });
   };
 
-  return (
+  return loading && profile === null ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <h1 className='large text-primary'>Add Your Education</h1>
       <p className='lead'>
@@ -81,7 +89,7 @@ const AddEducation = ({ profile, addEducation, history }) => {
         <div className='form-group'>
           <input
             type='text'
-            placeholder='Field of Study'
+            placeholder='* Field of Study'
             name='fieldofstudy'
             value={fieldofstudy}
             onChange={(e) => onChange(e)}
@@ -140,7 +148,12 @@ const AddEducation = ({ profile, addEducation, history }) => {
       </form>
 
       <h1 className='large text-primary my-2'>Delete an Education</h1>
-      <DisplayEducation education={profile.education} />
+
+      {!loading && profile !== null && (
+        <Fragment>
+          <DisplayEducation education={profile.education} />
+        </Fragment>
+      )}
 
       <Link className='btn btn-light my-1' to='/profile'>
         Go Back
@@ -152,12 +165,13 @@ const AddEducation = ({ profile, addEducation, history }) => {
 AddEducation.propTypes = {
   addEducation: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  profile: state.profile.profile,
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps, { addEducation })(
+export default connect(mapStateToProps, { getCurrentProfile, addEducation })(
   withRouter(AddEducation)
 );
