@@ -30,7 +30,7 @@ export const getPosts = () => async (dispatch) => {
   }
 };
 
-// Add likes
+// Add like
 export const addLike = (postId) => async (dispatch) => {
   try {
     const res = await axios.put(`/api/posts/like/${postId}`);
@@ -40,13 +40,13 @@ export const addLike = (postId) => async (dispatch) => {
       payload: { postId, data: res.data },
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    // const errors = err.response.data.errors;
 
     // if (errors) {
     //   errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     // }
 
-    swal({ title: 'Post already liked', icon: 'warning' });
+    // swal({ title: 'Post already liked', icon: 'warning' });
 
     dispatch({
       type: POST_ERROR,
@@ -55,7 +55,26 @@ export const addLike = (postId) => async (dispatch) => {
   }
 };
 
-// Dislikes
+// Remove like
+export const removeLike = (postId) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/posts/removelike/${postId}`);
+
+    dispatch({
+      type: UPDATE_LIKES,
+      payload: { postId, data: res.data },
+    });
+  } catch (err) {
+    // const errors = err.response.data.errors;
+
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Dislike
 export const dislike = (postId) => async (dispatch) => {
   try {
     const res = await axios.put(`/api/posts/dislike/${postId}`);
@@ -65,13 +84,32 @@ export const dislike = (postId) => async (dispatch) => {
       payload: { postId, data: res.data },
     });
   } catch (err) {
-    const errors = err.response.data.errors;
+    // const errors = err.response.data.errors;
 
     // if (errors) {
     //   errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     // }
 
-    swal({ title: 'Post already disliked', icon: 'warning' });
+    // swal({ title: 'Post already disliked', icon: 'warning' });
+
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Remove Dislike
+export const removeDislike = (postId) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/posts/removedislike/${postId}`);
+
+    dispatch({
+      type: UPDATE_DISLIKES,
+      payload: { postId, data: res.data },
+    });
+  } catch (err) {
+    // const errors = err.response.data.errors;
 
     dispatch({
       type: POST_ERROR,

@@ -3,12 +3,20 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
-import { addLike, dislike, deletePost } from '../../actions/post';
+import {
+  addLike,
+  removeLike,
+  dislike,
+  removeDislike,
+  deletePost,
+} from '../../actions/post';
 import swal from 'sweetalert';
 
 const PostItem = ({
   addLike,
+  removeLike,
   dislike,
+  removeDislike,
   deletePost,
   auth,
   post: { _id, text, name, avatar, user, likes, dislikes, comments, date },
@@ -26,6 +34,18 @@ const PostItem = ({
         deletePost(id);
       }
     });
+  };
+
+  const likeButton = (postId) => {
+    likes.filter((like) => like.user === auth.user._id).length > 0
+      ? removeLike(postId)
+      : addLike(postId);
+  };
+
+  const dislikeButton = (postId) => {
+    dislikes.filter((dislike) => dislike.user === auth.user._id).length > 0
+      ? removeDislike(postId)
+      : dislike(postId);
   };
 
   return (
@@ -46,7 +66,7 @@ const PostItem = ({
         {showActions && (
           <Fragment>
             <button
-              onClick={(e) => addLike(_id)}
+              onClick={(e) => likeButton(_id)}
               type='button'
               className='btn btn-light'
             >
@@ -59,7 +79,7 @@ const PostItem = ({
               {likes.length > 0 && <span>{likes.length}</span>}
             </button>
             <button
-              onClick={(e) => dislike(_id)}
+              onClick={(e) => dislikeButton(_id)}
               type='button'
               className='btn btn-light'
             >
@@ -99,7 +119,9 @@ PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   addLike: PropTypes.func.isRequired,
+  removeLike: PropTypes.func.isRequired,
   dislike: PropTypes.func.isRequired,
+  removeDislike: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
 };
 
@@ -107,6 +129,10 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { addLike, dislike, deletePost })(
-  PostItem
-);
+export default connect(mapStateToProps, {
+  addLike,
+  removeLike,
+  dislike,
+  removeDislike,
+  deletePost,
+})(PostItem);
