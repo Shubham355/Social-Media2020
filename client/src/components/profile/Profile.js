@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getCurrentProfile, deleteAccount } from '../../actions/profile';
+import { getCurrentUserAllPosts } from '../../actions/post';
 import ProfileActions from './ProfileActions';
 import Spinner from '../layout/Spinner';
 import ProfileData from './ProfileData';
@@ -11,11 +12,14 @@ import swal from 'sweetalert';
 const Profile = ({
   getCurrentProfile,
   deleteAccount,
+  getCurrentUserAllPosts,
   auth: { user },
   profile: { profile, loading },
+  post: { posts },
 }) => {
   useEffect(() => {
     getCurrentProfile();
+
     scrollToTop();
   }, [getCurrentProfile]);
 
@@ -48,7 +52,7 @@ const Profile = ({
       {profile !== null ? (
         <Fragment>
           <ProfileActions />
-          <ProfileData profile={profile} />
+          <ProfileData profile={profile} posts={posts} />
 
           <div className='my-2'>
             <button onClick={() => customDelete()} className='btn btn-danger'>
@@ -71,6 +75,7 @@ const Profile = ({
 Profile.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
+  getCurrentUserAllPosts: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
 };
@@ -78,8 +83,11 @@ Profile.propTypes = {
 const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
+  post: state.post,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
-  Profile
-);
+export default connect(mapStateToProps, {
+  getCurrentProfile,
+  deleteAccount,
+  getCurrentUserAllPosts,
+})(Profile);

@@ -9,19 +9,19 @@ const Navbar = ({ auth, logout }) => {
     <ul>
       <li>
         <Link to='/dashboard'>
-          <i className='fas fa-user' />{' '}
+          <i className='fas fa-user mx-1' />{' '}
           <span className='hide-sm'>Dashboard</span>
         </Link>
       </li>
       <li>
         <Link to='/profile'>
-          <i className='fas fa-user-circle' />{' '}
+          <i className='fas fa-user-circle mx-1' />{' '}
           <span className='hide-sm'>Profile</span>
         </Link>
       </li>
       <li>
         <a onClick={logout} href='/login'>
-          <i className='fas fa-sign-out-alt' />{' '}
+          <i className='fas fa-sign-out-alt mx-1' />{' '}
           <span className='hide-sm'>Logout</span>
         </a>
       </li>

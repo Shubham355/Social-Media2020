@@ -6,7 +6,7 @@ import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
 import ProfileGithub from './ProfileGithub';
 
-const ProfileData = ({ profile }) => {
+const ProfileData = ({ profile, posts }) => {
   return (
     <div className='profile-gird my-1'>
       <ProfileTop profile={profile} />
@@ -47,6 +47,7 @@ const ProfileData = ({ profile }) => {
 
 ProfileData.propTypes = {
   profile: PropTypes.object.isRequired,
+  posts: PropTypes.object.isRequired,
 };
 
 export default ProfileData;

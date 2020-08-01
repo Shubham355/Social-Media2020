@@ -14,7 +14,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     password2: '',
   });
 
-  const { name, email, password, password2 } = formData;
+  let { name, email, password, password2 } = formData;
 
   const onChange = (e) =>
     setformData({ ...formData, [e.target.name]: e.target.value });
@@ -25,6 +25,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       swal({ title: 'Passwords do not match', icon: 'error' });
       // setAlert('Passwords do not match', 'danger');
     } else {
+      name = name.trim();
       register({ name, email, password });
     }
   };

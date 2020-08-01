@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getCurrentProfile, getAllProfiles } from '../../actions/profile';
 import Spinner from '../layout/Spinner';
 import Posts from '../posts/Posts';
+import SearchBar from '../searchbar/SearchBar';
 
 const Dashboard = ({
   getCurrentProfile,
@@ -14,31 +15,34 @@ const Dashboard = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-    getAllProfiles();
-  }, [getCurrentProfile, getAllProfiles]);
+  }, [getCurrentProfile]);
 
   return loading && profile === null ? (
     <Spinner />
   ) : (
     <Fragment>
-      <h1 className='large text-primary'>Dashboard</h1>
-      <p className='lead'>
-        <i className='fas fa-user'></i> Welcome {user && user.name}
-      </p>
-      {profile !== null ? (
-        <Fragment>
-          <Posts />
-        </Fragment>
-      ) : (
-        <Fragment>
-          <p>You have not yet setup a profile, please add some info</p>
-          <Link to='/create-profile' className='btn btn-primary my-1'>
-            Create Profile
-          </Link>
+      
+      <div className='fixedTag'>
+      <SearchBar />
+        <h1 className='large text-primary centeredText topPadding'>Dashboard</h1>
+        <p className='lead'>
+          <i className='fas fa-user'></i> Welcome {user && user.name}
+        </p>
+        {profile !== null ? (
+          <Fragment>
+            <Posts />
+          </Fragment>
+        ) : (
+          <Fragment>
+            <p>You have not yet setup a profile, please add some info</p>
+            <Link to='/create-profile' className='btn btn-primary my-1'>
+              Create Profile
+            </Link>
 
-          <Posts />
-        </Fragment>
-      )}
+            <Posts />
+          </Fragment>
+        )}
+      </div>
     </Fragment>
   );
 };

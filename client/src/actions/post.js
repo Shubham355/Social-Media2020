@@ -10,10 +10,27 @@ import {
   GET_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  GET_CURRENT_USER_POSTS,
 } from '../actions/types';
 import swal from 'sweetalert';
 
-// Get posts
+// Get current user all posts
+export const getCurrentUserAllPosts = () => async (dispatch) => {
+  try {
+    const res = await axios.get('/api/posts/user/me');
+
+    dispatch({
+      type: GET_CURRENT_USER_POSTS,
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get all posts
 export const getPosts = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/posts');

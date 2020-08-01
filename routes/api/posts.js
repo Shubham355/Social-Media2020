@@ -53,6 +53,44 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+// @route   GET /api/posts/user/me
+// @desc    Get all the posts of a particular user
+// @access  Private
+router.get('/user/me', auth, async (req, res) => {
+  try {
+    let posts = await Post.find({ user: req.user.id }).sort({ date: -1 });
+
+    if (!posts) {
+      return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
+    }
+
+    res.json(posts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET /api/posts/user/:user_id
+// @desc    Get all the posts of a particular user
+// @access  Private
+router.get('/user/:user_id', auth, async (req, res) => {
+  try {
+    let posts = await Post.find({ user: req.params.user_id }).sort({
+      date: -1,
+    });
+
+    if (!posts) {
+      return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
+    }
+    console.log(posts.length)
+    res.json(posts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // @route   GET /api/posts/:id
 // @desc    Get posts by id
 // @access  Private
@@ -216,7 +254,7 @@ router.put('/dislike/:id', auth, async (req, res) => {
 router.put('/removedislike/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    
+
     // Check if user has disliked the post
     if (
       post.dislikes.filter((dislike) => dislike.user.toString() === req.user.id)

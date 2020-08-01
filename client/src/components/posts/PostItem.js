@@ -50,15 +50,15 @@ const PostItem = ({
 
   return (
     <div className='post bg-white p-1 my-1'>
-      <div>
+      <div className="topPadding">
         <Link to={`/profile/${user}`}>
           <img className='round-img' src={avatar} alt='' />
-          <h4>{name}</h4>
+          <h4 className="topPadding">{name}</h4>
         </Link>
       </div>
 
       <div>
-        <p className='my-1'>{text}</p>
+        <p className='my-1 centeredText'>{text}</p>
         <p className='post-date'>
           Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
         </p>
@@ -68,7 +68,7 @@ const PostItem = ({
             <button
               onClick={(e) => likeButton(_id)}
               type='button'
-              className='btn btn-light'
+              className='btn btn-light mx-3'
             >
               {likes.filter((like) => like.user === auth.user._id).length >
               0 ? (
@@ -81,7 +81,7 @@ const PostItem = ({
             <button
               onClick={(e) => dislikeButton(_id)}
               type='button'
-              className='btn btn-light'
+              className='btn btn-light mx-3'
             >
               {dislikes.filter((dislike) => dislike.user === auth.user._id)
                 .length > 0 ? (
@@ -91,7 +91,7 @@ const PostItem = ({
               )}{' '}
               {dislikes.length > 0 && <span>{dislikes.length}</span>}
             </button>
-            <Link to={`/posts/${_id}`} className='btn'>
+            <Link to={`/posts/${_id}`} className='btn mx-3'>
               <i className='fa fa-comment-o'></i>{' '}
               {comments.length > 0 && <span>{comments.length}</span>}
             </Link>
@@ -99,9 +99,9 @@ const PostItem = ({
               <button
                 onClick={(e) => customDelete(_id)}
                 type='button'
-                className='btn btn-danger'
+                className='btn btn-danger mx-3'
               >
-                <i className='fas fa-times'></i>
+                <i className='fa fa-trash'></i>
               </button>
             )}
           </Fragment>

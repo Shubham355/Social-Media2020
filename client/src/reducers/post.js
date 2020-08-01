@@ -8,6 +8,7 @@ import {
   GET_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
+  GET_CURRENT_USER_POSTS,
 } from '../actions/types';
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case GET_CURRENT_USER_POSTS:
     case GET_POSTS:
       return {
         ...state,
