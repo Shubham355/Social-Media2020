@@ -19,7 +19,7 @@ const Profile = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-
+    getCurrentUserAllPosts();
     scrollToTop();
   }, [getCurrentProfile]);
 

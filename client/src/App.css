@@ -495,7 +495,8 @@ button {
     'top top'
     'about about'
     'exp edu'
-    'github github';
+    'github github'
+    'profile_posts profile_posts';
   /* grid-gap: 1rem; */
 }
 
@@ -585,6 +586,24 @@ button {
   flex-basis: 20%;
 }
 
+.profile-posts {
+  grid-area: profile_posts;
+}
+
+.profile-posts .p_posts {
+  display: flex;
+}
+
+.profile-posts .p_posts > div:first-child {
+  flex: 7;
+  flex-basis: 70%;
+}
+
+.profile-posts > div:last-child {
+  flex: 3;
+  flex-basis: 20%;
+}
+
 /* Posts Page */
 .post-form .post-form-header {
   background: var(--primary-color);
@@ -594,7 +613,6 @@ button {
 .post {
   display: grid;
   grid-template-columns: 1fr 4fr;
-  /* grid-gap: 2rem; */
   align-items: center;
   border-radius: 20px;
   border: 1px solid;
@@ -719,7 +737,8 @@ button {
       'about'
       'exp'
       'edu'
-      'github';
+      'github'
+      'profile_posts';
   }
 
   .profile-about .skills {

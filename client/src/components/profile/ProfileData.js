@@ -5,6 +5,7 @@ import ProfileAbout from './ProfileAbout';
 import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
 import ProfileGithub from './ProfileGithub';
+import ProfilePost from './ProfilePost';
 
 const ProfileData = ({ profile, posts }) => {
   return (
@@ -40,6 +41,18 @@ const ProfileData = ({ profile, posts }) => {
 
       {profile.githubusername && (
         <ProfileGithub username={profile.githubusername} />
+      )}
+
+      {/* {profile.githubusername && <ProfilePost />} */}
+      {/* <ProfilePost posts={posts} /> */}
+
+      {posts.length > 0 ? (
+        <ProfilePost posts={posts} />
+      ) : (
+        <div className='profile-edu bg-white p-2'>
+          <h2 className='text-primary'>Posts</h2>
+          <h4>No Post Found</h4>
+        </div>
       )}
     </div>
   );

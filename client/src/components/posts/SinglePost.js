@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import { getPost } from '../../actions/post';
 import PostItem from './PostItem';
 import Spinner from '../layout/Spinner';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import CommentForm from './CommentForm';
 import CommentItem from './CommentItem';
 
-const SinglePost = ({ getPost, match, post: { post, loading } }) => {
+const SinglePost = ({ getPost, match, post: { post, loading }, history }) => {
   useEffect(() => {
     getPost(match.params.post_id);
   }, [getPost, match]);
@@ -17,7 +17,12 @@ const SinglePost = ({ getPost, match, post: { post, loading } }) => {
     <Spinner />
   ) : (
     <Fragment>
-      <Link to='/dashboard' className='btn'>
+      <Link
+        onClick={() => {
+          history.goBack();
+        }}
+        className='btn'
+      >
         Go Back
       </Link>
       <PostItem post={post} showActions={false} />
@@ -41,4 +46,4 @@ const mapStateToProps = (state) => ({
   post: state.post,
 });
 
-export default connect(mapStateToProps, { getPost })(SinglePost);
+export default connect(mapStateToProps, { getPost })(withRouter(SinglePost));

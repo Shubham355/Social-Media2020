@@ -54,7 +54,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // @route   GET /api/posts/user/me
-// @desc    Get all the posts of a particular user
+// @desc    Get all the posts of a current user
 // @access  Private
 router.get('/user/me', auth, async (req, res) => {
   try {
@@ -83,7 +83,7 @@ router.get('/user/:user_id', auth, async (req, res) => {
     if (!posts) {
       return res.status(404).json({ errors: [{ msg: 'Post not found' }] });
     }
-    console.log(posts.length)
+    // console.log(posts.length)
     res.json(posts);
   } catch (err) {
     console.error(err.message);

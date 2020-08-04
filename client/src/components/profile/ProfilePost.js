@@ -1,58 +1,49 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Spinner from '../layout/Spinner';
-import { getGithubRepos } from '../../actions/profile';
+// import { getCurrentUserAllPosts } from '../../actions/post';
 
-const ProfilePost = ({ username, getGithubRepos, repos }) => {
-  useEffect(() => {
-    getGithubRepos(username);
-  }, [getGithubRepos, username]);
-
+const ProfilePost = ({ posts }) => {
   return (
-    <div className='profile-github'>
-      <h2 className='text-primary my-1'>Github Repos</h2>
-      {repos === null ? (
-        <Spinner />
-      ) : (
-        repos.map((repo) => (
-          <div key={repo._id} className='repo bg-white p-1 my-1'>
+    <div className='profile-posts'>
+      <h2 className='text-primary my-1'>Posts</h2>
+      {posts.length > 0 &&
+        posts.map((post) => (
+          <div key={post._id} className='p_posts bg-white p-1 my-1'>
             <div>
-              <h4>
-                <a
-                  href={repo.html_url}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  {repo.name}
-                </a>
-              </h4>
-              <p>{repo.description}</p>
+              {/* <h4>
+            <a
+              href="#!"
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              {repo.name}
+            </a>
+          </h4> */}
+              <p>{post.text}</p>
             </div>
             <div>
               <ul>
-                <li className='badge badge-primary'>
-                  Star: {repo.stargazers_count}
+                <li className='badge badge-light'>Like: {post.likes.length}</li>
+                <li className='badge badge-light'>
+                  Dislike: {post.dislikes.length}
                 </li>
-                <li className='badge badge-dark'>Watchers: {repo.watchers_count}</li>
-                <li className='badge badge-light'>Forks: {repo.forks_count}</li>
+                <li className='badge badge-light'>
+                  <Link to={`/posts/${post._id}`}>
+                    Comments: {post.comments.length}
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
-        ))
-      )}
+        ))}
     </div>
   );
 };
 
 ProfilePost.propTypes = {
-  getGithubRepos: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
-  repos: PropTypes.array.isRequired,
+  posts: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  repos: state.profile.repos,
-});
-
-export default connect(mapStateToProps, { getGithubRepos })(ProfilePost);
+export default ProfilePost;
