@@ -68,7 +68,7 @@ const PostItem = ({
             <button
               onClick={(e) => likeButton(_id)}
               type='button'
-              className='btn btn-light mx-3'
+              className='btn btn-light mx-8percent'
             >
               {likes.filter((like) => like.user === auth.user._id).length >
               0 ? (
@@ -81,7 +81,7 @@ const PostItem = ({
             <button
               onClick={(e) => dislikeButton(_id)}
               type='button'
-              className='btn btn-light mx-3'
+              className='btn btn-light mx-8percent'
             >
               {dislikes.filter((dislike) => dislike.user === auth.user._id)
                 .length > 0 ? (
@@ -91,7 +91,7 @@ const PostItem = ({
               )}{' '}
               {dislikes.length > 0 && <span>{dislikes.length}</span>}
             </button>
-            <Link to={`/posts/${_id}`} className='btn mx-3'>
+            <Link to={`/posts/${_id}`} className='btn mx-8percent'>
               <i className='fa fa-comment-o'></i>{' '}
               {comments.length > 0 && <span>{comments.length}</span>}
             </Link>
@@ -99,7 +99,7 @@ const PostItem = ({
               <button
                 onClick={(e) => customDelete(_id)}
                 type='button'
-                className='btn btn-danger mx-3'
+                className='btn btn-danger mx-8percent'
               >
                 <i className='fa fa-trash'></i>
               </button>

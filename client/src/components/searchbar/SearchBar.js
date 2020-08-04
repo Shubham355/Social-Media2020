@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getAllProfiles } from '../../actions/profile';
@@ -56,13 +56,12 @@ const SearchBar = ({ getAllProfiles, profiles }) => {
           (match) =>
             `<div style="display:flex; margin-bottom:1rem">
             <a href="/profile/${match._id}"><span><img style="margin-left: 2rem; border-radius:50%;  width: 30;
-            height: 30; " src="${match.avatar}" alt="Girl in a jacket" width="40" height="40"></span><span style="padding-left:1rem">${match.name}</span></a>
+            height: 30; " src="${match.avatar}" alt="Profile Photo" width="40" height="40"></span><span style="padding-left:1rem">${match.name}</span></a>
             </div>`
         )
         .join('');
 
       matchList.innerHTML = html;
-      // console.log(html);
     }
   };
 
@@ -77,7 +76,9 @@ const SearchBar = ({ getAllProfiles, profiles }) => {
           onChange={(e) => handleChange(e.target.value)}
         />
       </div>
-      <div id='card'></div>
+      <div className='centerDiv'>
+        <div id='card'></div>
+      </div>
     </div>
   );
 };

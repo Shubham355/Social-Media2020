@@ -21,28 +21,25 @@ const Dashboard = ({
     <Spinner />
   ) : (
     <Fragment>
-      
-      <div className='fixedTag'>
       <SearchBar />
-        <h1 className='large text-primary centeredText topPadding'>Dashboard</h1>
-        <p className='lead'>
-          <i className='fas fa-user'></i> Welcome {user && user.name}
-        </p>
-        {profile !== null ? (
-          <Fragment>
-            <Posts />
-          </Fragment>
-        ) : (
-          <Fragment>
-            <p>You have not yet setup a profile, please add some info</p>
-            <Link to='/create-profile' className='btn btn-primary my-1'>
-              Create Profile
-            </Link>
+      <h1 className='large text-primary centeredText topPadding'>Dashboard</h1>
+      <p className='lead'>
+        <i className='fas fa-user'></i> Welcome {user && user.name}
+      </p>
+      {profile !== null ? (
+        <Fragment>
+          <Posts />
+        </Fragment>
+      ) : (
+        <Fragment>
+          <p>You have not yet setup a profile, please add some info</p>
+          <Link to='/create-profile' className='btn btn-primary my-1'>
+            Create Profile
+          </Link>
 
-            <Posts />
-          </Fragment>
-        )}
-      </div>
+          <Posts />
+        </Fragment>
+      )}
     </Fragment>
   );
 };
