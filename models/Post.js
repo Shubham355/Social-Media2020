@@ -19,16 +19,32 @@ const PostSchema = new Schema({
   likes: [
     {
       user: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
+        id: {
+          type: Schema.Types.ObjectId,
+          ref: 'user',
+        },
+        name: {
+          type: String,
+        },
+        avatar: {
+          type: String,
+        },
       },
     },
   ],
   dislikes: [
     {
       user: {
-        type: Schema.Types.ObjectId,
-        ref: 'user',
+        id: {
+          type: Schema.Types.ObjectId,
+          ref: 'user',
+        },
+        name: {
+          type: String,
+        },
+        avatar: {
+          type: String,
+        },
       },
     },
   ],

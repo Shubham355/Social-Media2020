@@ -592,6 +592,7 @@ button {
 
 .profile-posts .p_posts {
   display: flex;
+  border-radius: 20px;
 }
 
 .profile-posts .p_posts > div:first-child {
@@ -638,6 +639,27 @@ button {
   color: #aaa;
   font-size: 0.8rem;
   margin-bottom: 0.5rem;
+}
+
+.linkToRight {
+  text-align-last: right;
+  font-size: 0.9rem;
+}
+
+.peopleList {
+  display: flex;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+.peopleListImage {
+  width: 50px;
+  height: 50px;
+}
+
+.peopleListName {
+  padding-top: 1rem;
+  padding-left: 1rem;
 }
 
 /* Mobile Styles */
@@ -765,5 +787,18 @@ button {
 
   .centeredText {
     text-align: center;
+  }
+
+  .linkToRight {
+    font-size: 0.7rem;
+  }
+
+  .peopleListImage {
+    width: 40px;
+    height: 40px;
+  }
+
+  .peopleListName {
+    padding-top: 0.6rem;
   }
 }

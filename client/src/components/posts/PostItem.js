@@ -37,13 +37,13 @@ const PostItem = ({
   };
 
   const likeButton = (postId) => {
-    likes.filter((like) => like.user === auth.user._id).length > 0
+    likes.filter((like) => like.user.id === auth.user._id).length > 0
       ? removeLike(postId)
       : addLike(postId);
   };
 
   const dislikeButton = (postId) => {
-    dislikes.filter((dislike) => dislike.user === auth.user._id).length > 0
+    dislikes.filter((dislike) => dislike.user.id === auth.user._id).length > 0
       ? removeDislike(postId)
       : dislike(postId);
   };
@@ -70,7 +70,7 @@ const PostItem = ({
               type='button'
               className='btn btn-light mx-8percent'
             >
-              {likes.filter((like) => like.user === auth.user._id).length >
+              {likes.filter((like) => like.user.id === auth.user._id).length >
               0 ? (
                 <i className='fas fa-thumbs-up' />
               ) : (
@@ -83,7 +83,7 @@ const PostItem = ({
               type='button'
               className='btn btn-light mx-8percent'
             >
-              {dislikes.filter((dislike) => dislike.user === auth.user._id)
+              {dislikes.filter((dislike) => dislike.user.id === auth.user._id)
                 .length > 0 ? (
                 <i className='fas fa-thumbs-down' />
               ) : (

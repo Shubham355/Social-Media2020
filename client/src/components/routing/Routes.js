@@ -13,6 +13,9 @@ import AddEducation from '../profile/AddEducation';
 import PrivateRoute from '../routing/PrivateRoute';
 import SinglePost from '../posts/SinglePost';
 import NotFound from '../layout/NotFound';
+import DisplayIndividualAllPosts from '../posts/DisplayIndividualAllPosts';
+import LikePage from '../posts/LikePage';
+import DislikePage from '../posts/DislikePage';
 
 const Routes = () => {
   return (
@@ -33,6 +36,17 @@ const Routes = () => {
         <PrivateRoute exact path='/add-experience' component={AddExperience} />
         <PrivateRoute exact path='/add-education' component={AddEducation} />
         <PrivateRoute exact path='/posts/:post_id' component={SinglePost} />
+        <PrivateRoute
+          exact
+          path='/profile/all-posts/:user_id'
+          component={DisplayIndividualAllPosts}
+        />
+        <PrivateRoute exact path='/posts/:post_id/likes' component={LikePage} />
+        <PrivateRoute
+          exact
+          path='/posts/:post_id/dislikes'
+          component={DislikePage}
+        />
         <Route component={NotFound} />
       </Switch>
     </section>

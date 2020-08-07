@@ -55,8 +55,13 @@ const SearchBar = ({ getAllProfiles, profiles }) => {
         .map(
           (match) =>
             `<div style="display:flex; margin-bottom:1rem">
+            <div>
             <a href="/profile/${match._id}"><span><img style="margin-left: 2rem; border-radius:50%;  width: 30;
-            height: 30; " src="${match.avatar}" alt="Profile Photo" width="40" height="40"></span><span style="padding-left:1rem">${match.name}</span></a>
+            height: 30; " src="${match.avatar}" alt="Profile Photo" width="40" height="40"></span></a>
+            </div>
+            <div style="padding-top: 0.6rem; padding-left:1rem">
+            <a href="/profile/${match._id}"><span>${match.name}</span></a>
+            </div>
             </div>`
         )
         .join('');

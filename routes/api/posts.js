@@ -146,28 +146,32 @@ router.delete('/:id', auth, async (req, res) => {
 router.put('/like/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
+    const user = await User.findById(req.user.id).select('-password');
 
     // Check if user has already liked the post
     if (
-      post.likes.filter((like) => like.user.toString() === req.user.id).length >
-      0
+      post.likes.filter((like) => like.user.id.toString() === req.user.id)
+        .length > 0
     ) {
       return res.status(400).json({ errors: [{ msg: 'Post already liked' }] });
     }
 
     // Check if user has disliked the post
     if (
-      post.dislikes.filter((dislike) => dislike.user.toString() === req.user.id)
-        .length > 0
+      post.dislikes.filter(
+        (dislike) => dislike.user.id.toString() === req.user.id
+      ).length > 0
     ) {
       const removeIndex = post.dislikes
-        .map((dislike) => dislike.user.toString())
+        .map((dislike) => dislike.user.id.toString())
         .indexOf(req.user.id);
 
       post.dislikes.splice(removeIndex, 1);
     }
 
-    post.likes.unshift({ user: req.user.id });
+    post.likes.unshift({
+      user: { id: req.user.id, name: user.name, avatar: user.avatar },
+    });
 
     await post.save();
 
@@ -187,11 +191,11 @@ router.put('/removelike/:id', auth, async (req, res) => {
 
     // Check if user has liked the post
     if (
-      post.likes.filter((like) => like.user.toString() === req.user.id).length >
-      0
+      post.likes.filter((like) => like.user.id.toString() === req.user.id)
+        .length > 0
     ) {
       const removeIndex = post.likes
-        .map((like) => like.user.toString())
+        .map((like) => like.user.id.toString())
         .indexOf(req.user.id);
 
       post.likes.splice(removeIndex, 1);
@@ -214,11 +218,13 @@ router.put('/removelike/:id', auth, async (req, res) => {
 router.put('/dislike/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
+    const user = await User.findById(req.user.id).select('-password');
 
     // Check if user has already disliked the post
     if (
-      post.dislikes.filter((dislike) => dislike.user.toString() === req.user.id)
-        .length > 0
+      post.dislikes.filter(
+        (dislike) => dislike.user.id.toString() === req.user.id
+      ).length > 0
     ) {
       return res
         .status(400)
@@ -227,17 +233,19 @@ router.put('/dislike/:id', auth, async (req, res) => {
 
     // Check if user has liked the post
     if (
-      post.likes.filter((like) => like.user.toString() === req.user.id).length >
-      0
+      post.likes.filter((like) => like.user.id.toString() === req.user.id)
+        .length > 0
     ) {
       const removeIndex = post.likes
-        .map((like) => like.user.toString())
+        .map((like) => like.user.id.toString())
         .indexOf(req.user.id);
 
       post.likes.splice(removeIndex, 1);
     }
 
-    post.dislikes.unshift({ user: req.user.id });
+    post.dislikes.unshift({
+      user: { id: req.user.id, name: user.name, avatar: user.avatar },
+    });
 
     await post.save();
 
@@ -257,11 +265,12 @@ router.put('/removedislike/:id', auth, async (req, res) => {
 
     // Check if user has disliked the post
     if (
-      post.dislikes.filter((dislike) => dislike.user.toString() === req.user.id)
-        .length > 0
+      post.dislikes.filter(
+        (dislike) => dislike.user.id.toString() === req.user.id
+      ).length > 0
     ) {
       const removeIndex = post.dislikes
-        .map((dislike) => dislike.user.toString())
+        .map((dislike) => dislike.user.id.toString())
         .indexOf(req.user.id);
 
       post.dislikes.splice(removeIndex, 1);
