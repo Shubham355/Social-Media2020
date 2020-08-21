@@ -7,6 +7,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   ACCOUNT_DELETED,
+  UPDATE_IMAGE,
 } from '../actions/types';
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: null,
+  avatar: null,
 };
 
 export default function (state = initialState, action) {
@@ -48,6 +50,13 @@ export default function (state = initialState, action) {
         isAuthenticated: false,
         loading: false,
         user: null,
+      };
+
+    case UPDATE_IMAGE:
+      return {
+        ...state,
+        loading: false,
+        avatar: action.payload.avatar,
       };
 
     default:

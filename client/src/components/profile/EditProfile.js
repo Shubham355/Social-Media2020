@@ -3,6 +3,8 @@ import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
+import SetProfileImage from '../profile_image/setProfileImage';
+import Spinner from '../layout/Spinner';
 
 const EditProfile = ({
   profile: { profile, loading },
@@ -68,7 +70,9 @@ const EditProfile = ({
     e.preventDefault();
     createProfile(formData, history, true);
   };
-  return (
+  return loading && profile === null ? (
+    <Spinner />
+  ) : (
     <Fragment>
       <h1 className='large text-primary'>Edit Your Profile</h1>
       <p className='lead'>
@@ -76,6 +80,16 @@ const EditProfile = ({
         profile stand out
       </p>
       <small>* = required field</small>
+      <div className='edit-profile-image p-1'>
+        <div className='image-edit'>
+          <img
+            className='round-img my-1'
+            src={profile.user.avatar}
+            alt='Profile Image'
+          />
+          <SetProfileImage user_id={profile.user._id} />
+        </div>
+      </div>
       <form className='form' onSubmit={(e) => onSubmit(e)}>
         <div className='form-group'>
           {/* <select name='status' value={status} onChange={(e) => onChange(e)}>

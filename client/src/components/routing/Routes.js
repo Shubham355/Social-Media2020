@@ -47,6 +47,7 @@ const Routes = () => {
           path='/posts/:post_id/dislikes'
           component={DislikePage}
         />
+
         <Route component={NotFound} />
       </Switch>
     </section>

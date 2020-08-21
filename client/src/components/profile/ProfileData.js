@@ -6,8 +6,25 @@ import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
 import ProfileGithub from './ProfileGithub';
 import ProfilePost from './ProfilePost';
+import { connect } from 'react-redux';
+import { deleteAccount } from '../../actions/profile';
+import swal from 'sweetalert';
 
-const ProfileData = ({ profile, posts }) => {
+const ProfileData = ({ profile, posts, auth: { user }, deleteAccount }) => {
+  const customDelete = () => {
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover your account!',
+      icon: 'warning',
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        deleteAccount();
+      }
+    });
+  };
+
   return (
     <div className='profile-gird my-1'>
       <ProfileTop profile={profile} />
@@ -54,6 +71,14 @@ const ProfileData = ({ profile, posts }) => {
           <h4>No Post Found</h4>
         </div>
       )}
+
+      {user._id === profile.user._id && (
+        <div className='my-2'>
+          <button onClick={() => customDelete()} className='btn btn-danger'>
+            <i className='fas fa-user-minus'> Delete My Account</i>
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -61,6 +86,11 @@ const ProfileData = ({ profile, posts }) => {
 ProfileData.propTypes = {
   profile: PropTypes.object.isRequired,
   posts: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default ProfileData;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { deleteAccount })(ProfileData);

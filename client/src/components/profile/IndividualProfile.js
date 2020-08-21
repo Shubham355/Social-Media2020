@@ -36,7 +36,7 @@ const IndividualProfile = ({ match, history }) => {
   useEffect(() => {
     getProfileByID(match.params.user_id);
     getParticularUserAllPosts(match.params.user_id);
-  }, [getProfileByID, match, getParticularUserAllPosts]);
+  }, []);
 
   return loading && profile === null ? (
     <Spinner />

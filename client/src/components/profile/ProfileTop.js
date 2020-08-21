@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SetProfileImage from '../profile_image/setProfileImage';
+import { connect } from 'react-redux';
 
 const ProfileTop = ({
   profile: {
@@ -8,12 +10,16 @@ const ProfileTop = ({
     location,
     website,
     social,
-    user: { name, avatar },
+    user: { _id, name, avatar },
   },
+  auth,
 }) => {
   return (
     <div className='profile-top bg-primary p-2'>
-      <img className='round-img my-1' src={avatar} alt='' />
+      <div className='image-edit'>
+        <img className='round-img my-1' src={avatar} alt='' />
+        {auth.user._id === _id && <SetProfileImage user_id={auth.user._id} />}
+      </div>
       <h1 className='large'>{name}</h1>
       <p>
         {status} {company && <span> at {company}</span>}
@@ -59,4 +65,8 @@ ProfileTop.propTypes = {
   profile: PropTypes.object.isRequired,
 };
 
-export default ProfileTop;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps)(ProfileTop);

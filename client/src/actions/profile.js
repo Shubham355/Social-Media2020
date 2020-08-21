@@ -7,6 +7,7 @@ import {
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
   GET_PROFILES,
+  UPDATE_IMAGE,
 } from './types';
 // import { setAlert } from './alert';
 import swal from 'sweetalert';
@@ -276,4 +277,23 @@ export const clearProfile = () => async (dispatch) => {
   dispatch({
     type: CLEAR_PROFILE,
   });
+};
+
+// Update profile image
+export const updateProfileImage = (formData, history) => async (dispatch) => {
+  try {
+    const res = await axios.post('/api/users/image_upload', formData);
+
+    dispatch({
+      type: UPDATE_IMAGE,
+      payload: res.data,
+    });
+
+    history.go(0);
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
 };

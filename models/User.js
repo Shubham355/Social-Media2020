@@ -15,13 +15,13 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   avatar: {
-    type: String,
+    data: Buffer,
+    contentType: String,
   },
   date: {
     type: Date,
     default: Date.now,
   },
 });
-
 
 module.exports = User = mongoose.model('user', UserSchema);
