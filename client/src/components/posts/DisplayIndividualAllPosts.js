@@ -47,10 +47,14 @@ const DisplayIndividualAllPosts = ({ match, history }) => {
                 <div>
                   <ul>
                     <li className='badge badge-light'>
-                      Like: {post.likes.length}
+                      <Link to={`/posts/${post._id}/likes`}>
+                        Like: {post.likes.length}
+                      </Link>
                     </li>
                     <li className='badge badge-light'>
-                      Dislike: {post.dislikes.length}
+                      <Link to={`/posts/${post._id}/dislikes`}>
+                        Dislike: {post.dislikes.length}
+                      </Link>
                     </li>
                     <li className='badge badge-light'>
                       <Link to={`/posts/${post._id}`}>
