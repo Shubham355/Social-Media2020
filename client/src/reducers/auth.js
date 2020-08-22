@@ -15,7 +15,6 @@ const initialState = {
   isAuthenticated: null,
   loading: true,
   user: null,
-  avatar: null,
 };
 
 export default function (state = initialState, action) {
@@ -55,8 +54,8 @@ export default function (state = initialState, action) {
     case UPDATE_IMAGE:
       return {
         ...state,
+        user: { ...state.auth.user, avatar: action.payload.avatar },
         loading: false,
-        avatar: action.payload.avatar,
       };
 
     default:

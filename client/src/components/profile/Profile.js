@@ -19,7 +19,7 @@ const Profile = ({
     getCurrentProfile();
     getCurrentUserAllPosts();
     scrollToTop();
-  }, [getCurrentProfile]);
+  }, [getCurrentProfile, getCurrentUserAllPosts]);
 
   function scrollToTop() {
     window.scrollTo(0, 0);
